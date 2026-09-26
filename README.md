@@ -808,47 +808,7 @@ The final architecture should use persistent model state and preallocated buffer
 
 ---
 
-# 23. Current Status
-
-### Completed (by 26th)
-
-* [x] Python virtual environment
-* [x] Audio device detection
-* [x] Real-time audio capture
-* [x] Real-time output
-* [x] 16 kHz / 160-sample application interface
-* [x] Pass-through pipeline
-* [x] Streaming model interface
-* [x] DeepFilterNet integration
-* [x] Streaming adapter
-* [x] Raw/enhanced switching
-* [x] Processing-time measurement
-* [x] RTF measurement
-
-### In Progress
-
-* [ ] Correct 16 kHz ↔ 48 kHz DeepFilterNet integration
-* [ ] Transient limiter
-* [ ] NLMS adaptive filter
-* [ ] Two-microphone simulation
-* [ ] Full pipeline
-* [ ] Automated evaluation
-* [ ] Frozen test set
-* [ ] Custom neural model
-
-### Future
-
-* [ ] ONNX export
-* [ ] TensorRT optimization
-* [ ] Jetson deployment
-* [ ] Two-channel USB audio interface
-* [ ] Real microphones
-* [ ] Hardware loopback latency measurement
-* [ ] Final headset demonstration
-
----
-
-# 24. Quick Start — TL;DR
+# 25. Quick Start — TL;DR
 
 For someone who has already cloned the repository:
 
