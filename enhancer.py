@@ -1,35 +1,70 @@
 import numpy as np
 
+from dfnstream_py import DeepFilterNetStreaming
+
 
 BLOCK_SIZE = 160
 
 
-def enhance_frame(frame_160, state):
-    """
-    Process one 10 ms audio frame.
+class DeepFilterEnhancer:
 
-    Input:
-        frame_160 : numpy array containing exactly 160 samples
-                    at 16 kHz, represented as float32.
+    def __init__(self):
+        print("Loading DeepFilterNet...")
 
-        state     : model's internal state.
-                    Currently unused because this is a dummy enhancer.
+        self.processor = DeepFilterNetStreaming()
 
-    Output:
-        out_160   : enhanced 160-sample frame
-        state     : updated model state
-    """
+        print("DeepFilterNet loaded.")
 
-    # Make sure we received exactly one 10 ms frame.
-    if len(frame_160) != BLOCK_SIZE:
-        raise ValueError(
-            f"Expected {BLOCK_SIZE} samples, "
-            f"but received {len(frame_160)} samples."
+    def process(self, frame):
+        """
+        Process one audio frame.
+
+        Input:
+            frame: float32 numpy array
+
+        Output:
+            enhanced audio frame
+        """
+
+        frame = np.asarray(
+            frame,
+            dtype=np.float32
         )
 
-    # Dummy enhancer:
-    # For now, simply pass the audio through unchanged.
-    out_160 = frame_160.copy()
+        output = self.processor.process_chunk(frame)
 
-    # No internal state is required yet.
-    return out_160, state
+        return np.asarray(
+            output,
+            dtype=np.float32
+        )
+
+    def close(self):
+        self.processor.close()
+
+
+# Create the model once.
+enhancer = DeepFilterEnhancer()
+
+
+def enhance_frame(frame_160, state):
+    """
+    Standard interface used by the real-time pipeline.
+
+    frame_160:
+        One incoming audio block.
+
+    state:
+        Reserved for model state.
+
+    Returns:
+        enhanced_frame, state
+    """
+
+    frame_160 = np.asarray(
+        frame_160,
+        dtype=np.float32
+    )
+
+    enhanced = enhancer.process(frame_160)
+
+    return enhanced, state
